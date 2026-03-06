@@ -33,7 +33,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           script: |
-            cd ~/aygit/muhasebe/pre_registiration_api-dev
+            cd ~/aygit/muhasebe/pre-registiration-api-dev
             echo "Pulling latest code..."
             git pull origin dev
             echo "Creating .env with dev settings..."

@@ -1,0 +1,27 @@
+services:
+  pre-registiration-service:
+    container_name: aygit-muhasebe-pre-registiration-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        ENVIRONMENT: prod
+    environment:
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_NAME=${DB_NAME}
+      - JWT_SECRET=${JWT_SECRET}
+      - ENVIRONMENT=${ENVIRONMENT}
+      - PYTHONDONTWRITEBYTECODE=${PYTHONDONTWRITEBYTECODE}
+      - PYTHONUNBUFFERED=${PYTHONUNBUFFERED}
+    networks:
+      - aygit-shared-network
+      - aygit-muhasebe-network
+
+networks:
+  aygit-shared-network:
+    external: true
+  aygit-muhasebe-network:
+    external: true
+    name: aygit-muhasebe-network

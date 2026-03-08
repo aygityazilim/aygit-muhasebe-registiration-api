@@ -1,5 +1,6 @@
 from .pre_registiration import (
     PreRegistirationCreateSchema,
-    PreRegistirationResponseSchema
+    PreRegistirationResponseSchema,
+    PreRegistirationUpdateSchema
 )
 from .response import ResponseSchema

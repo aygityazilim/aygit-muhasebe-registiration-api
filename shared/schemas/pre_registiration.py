@@ -14,6 +14,12 @@ class PreRegistirationCreateSchema(BaseModel):
     status: Optional[RegistirationStatusEnum] = Field(None)
 
 
+class PreRegistirationUpdateSchema(BaseModel):
+    phone: Optional[str] = Field(None)    
+    name: Optional[str] = Field(None)
+    surname: Optional[str] = Field(None)    
+    status: Optional[RegistirationStatusEnum] = Field(None)
+
 class PreRegistirationResponseSchema(BaseModel):
     id: int = Field(...)
     phone: str = Field(...)

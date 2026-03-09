@@ -19,6 +19,12 @@ class PreRegistirationService:
         self.pre_registiration_history_repository = PreRegistirationHistoryRepository(db=db)
 
     
+    async def get_one(self, tracking_number: str) -> PreRegistirationResponseSchema:
+        item = self.pre_registiration_repository.get_by_field("tracking_number", tracking_number)
+        if not item:
+            raise HTTPException(status_code=404, detail="Pre registration not found")
+        return PreRegistirationResponseSchema(**item.to_dict())
+
     async def create(self, payload: PreRegistirationCreateSchema) -> PreRegistirationResponseSchema:
         try:
             tracking_number = str(random.randint(10**19, 10**20 - 1))

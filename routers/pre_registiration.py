@@ -12,6 +12,19 @@ router  = APIRouter(
     tags=["Pre Registiration"]
 )
 
+@router.get("/{tracking_number}")
+async def get_one(
+    request: Request,
+    response: Response,
+    tracking_number: str,
+    service: PreRegistirationService = Depends(get_pre_registiration_service)
+):
+    data = await service.get_one(tracking_number)
+    data = ResponseSchema(status=StatusCodeEnum.SUCCESS.value, success=True, error=None, data=data)
+    response.status_code = StatusCodeEnum.SUCCESS.value
+    return data
+
+
 @router.post("/")
 async def create(
     request: Request,

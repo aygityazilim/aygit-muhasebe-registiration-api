@@ -1,8 +1,9 @@
 from pydantic import BaseModel, Field
-from typing import Optional, Any, Dict
+from typing import Optional, Any, Dict, List
 from shared.enums import (
     RegistirationStatusEnum
 )
+from shared.schemas.contract_verification import ContractVerificationResponseSchema
 from datetime import datetime
 
 class RegistirationCreateSchema(BaseModel):
@@ -24,3 +25,4 @@ class RegistirationResponseSchema(BaseModel):
     status: RegistirationStatusEnum = Field(...)
     nes_info: Optional[Dict[str, Any]] = Field(None)    
     created_at: datetime = Field(...)
+    contracts: List[ContractVerificationResponseSchema] = Field(...)

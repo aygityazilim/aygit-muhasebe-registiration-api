@@ -7,7 +7,8 @@ from shared.repositories import (
 )
 from shared.schemas import (
     RegistirationResponseSchema,
-    RegistirationCreateSchema
+    RegistirationCreateSchema,
+    ContractVerificationResponseSchema
 )
 from shared.enums import (
     RegistirationStatusEnum,
@@ -35,6 +36,7 @@ class RegistirationService:
             payload.status = RegistirationStatusEnum.PENDING.value
             data = self.registiration_repository.create(payload.model_dump(mode="json", exclude_none=True))
             self.registiration_history_repository.create({"note": "Oluşturuldu", "status": RegistirationStatusEnum.PENDING.value, "registiration_id": data.id})
+            
             contracts = [
                 {                                          
                     "link": "https://www.asmadanmuze.com/docs/etk-onay-metni.pdf",        
@@ -48,10 +50,16 @@ class RegistirationService:
                 }                
             ]
 
-            for contract in contracts:
-                self.contract_verification_repository.create(contract)
+            contracts_data = []
 
-            data = RegistirationResponseSchema(**data.to_dict())
+            for contract in contracts:
+                created_contract = self.contract_verification_repository.create(contract)
+                contracts_data.append(ContractVerificationResponseSchema(**created_contract.to_dict()))
+
+            data = data.to_dict()
+            data["contracts"] = contracts_data
+            data = RegistirationResponseSchema(**data)
+            
             self.db.commit()
             return data
         except HTTPException:
@@ -60,3 +68,12 @@ class RegistirationService:
             print(e)
             self.db.rollback()
             raise e
+        
+    async def get_one(self, number: str) -> RegistirationResponseSchema:
+        registiration = self.registiration_repository.get_by_field("tracking_number", number)
+        contracts = self.contract_verification_repository.get_registiration_contracts(registiration.id)        
+
+        data = registiration.to_dict()
+        data["contracts"] = [ContractVerificationResponseSchema(**contract.to_dict()) for contract in contracts]
+
+        return data

@@ -3,14 +3,14 @@ from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
 from shared.db import Base, engine
 from shared.utils import http_exception_handler, request_validation_exception_handler, internal_server_exception_handler
-from routers.pre_registiration import router as pre_registiration_router
+from routers.registiration import router as registiration_router
 
 Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
-    root_path="/pre-registiration",
-    title="Pre Registiration Service",
-    description="Pre Registiration Service",
+    root_path="/registiration",
+    title="Registiration Service",
+    description="Registiration Service",
 )
 
 app.add_middleware(
@@ -26,4 +26,4 @@ app.add_exception_handler(RequestValidationError, request_validation_exception_h
 app.add_exception_handler(Exception, internal_server_exception_handler)
 
 
-app.include_router(pre_registiration_router)
+app.include_router(registiration_router)

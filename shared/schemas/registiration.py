@@ -5,7 +5,7 @@ from shared.enums import (
 )
 from datetime import datetime
 
-class PreRegistirationCreateSchema(BaseModel):
+class RegistirationCreateSchema(BaseModel):
     phone: str = Field(...)
     message: str = Field(...)
     name: Optional[str] = Field(None)
@@ -14,7 +14,7 @@ class PreRegistirationCreateSchema(BaseModel):
     status: Optional[RegistirationStatusEnum] = Field(None)
 
 
-class PreRegistirationResponseSchema(BaseModel):
+class RegistirationResponseSchema(BaseModel):
     id: int = Field(...)
     phone: str = Field(...)
     message: str = Field(...)

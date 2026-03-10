@@ -1,8 +1,8 @@
 from sqlalchemy import Column, String, JSON, Integer, Boolean
 from shared.models.base import BaseModel
 
-class PreRegistirationModel(BaseModel):
-    __tablename__ = "pre_registirations"
+class RegistirationModel(BaseModel):
+    __tablename__ = "registirations"
 
     phone = Column(String, nullable=False, unique=True)
     message = Column(String, nullable=False)

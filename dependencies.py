@@ -1,7 +1,7 @@
 from fastapi import Depends
 from sqlalchemy.orm import Session
 from shared.db import get_db
-from services.pre_registiration import PreRegistirationService
+from services.registiration import RegistirationService
 
-def get_pre_registiration_service(db: Session = Depends(get_db)) -> PreRegistirationService:
-    return PreRegistirationService(db=db)
+def get_registiration_service(db: Session = Depends(get_db)) -> RegistirationService:
+    return RegistirationService(db=db)

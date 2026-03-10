@@ -2,22 +2,22 @@ from fastapi import APIRouter, Request, Response, Depends
 from shared.enums import StatusCodeEnum
 from shared.schemas import (
     ResponseSchema,
-    PreRegistirationCreateSchema
+    RegistirationCreateSchema
 )
-from services.pre_registiration import PreRegistirationService
-from dependencies import get_pre_registiration_service
+from services.registiration import RegistirationService
+from dependencies import get_registiration_service
 
 router  = APIRouter(
     prefix="",
-    tags=["Pre Registiration"]
+    tags=["Registiration"]
 )
 
 @router.post("/")
 async def create(
     request: Request,
     response: Response,
-    payload: PreRegistirationCreateSchema,
-    service: PreRegistirationService = Depends(get_pre_registiration_service)
+    payload: RegistirationCreateSchema,
+    service: RegistirationService = Depends(get_registiration_service)
 ):
     data = await service.create(payload)
     data = ResponseSchema(status=StatusCodeEnum.CREATED.value, success=True, error=None, data=data)

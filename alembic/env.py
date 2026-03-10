@@ -18,8 +18,8 @@ sys.path.append(base_dir)
 from shared.db import Base
 from shared.config import Config
 from shared.models import (
-    PreRegistirationModel,
-    PreRegistirationHistoryModel,
+    RegistirationModel,
+    RegistirationHistoryModel,
     DocumentModel,
     ContractVerificationModel
 )

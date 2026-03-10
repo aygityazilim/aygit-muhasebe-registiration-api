@@ -1,4 +1,4 @@
 from .document import DocumentRepository
-from .pre_registiration_history import PreRegistirationHistoryRepository
-from .pre_registiration import PreRegistirationRepository
+from .registiration_history import RegistirationHistoryRepository
+from .registiration import RegistirationRepository
 from .contract_verification import ContractVerificationRepository

@@ -1,6 +1,6 @@
 services:
-  pre-registiration-service:
-    container_name: aygit-muhasebe-pre-registiration-service
+  registiration-service:
+    container_name: aygit-muhasebe-registiration-service
     build:
       context: .
       dockerfile: Dockerfile

@@ -4,6 +4,7 @@ from shared.enums import (
     RegistirationStatusEnum
 )
 from shared.schemas.contract_verification import ContractVerificationResponseSchema
+from shared.schemas.document import DocumentResponseSchema
 from datetime import datetime
 
 class RegistirationCreateSchema(BaseModel):
@@ -26,3 +27,4 @@ class RegistirationResponseSchema(BaseModel):
     nes_info: Optional[Dict[str, Any]] = Field(None)    
     created_at: datetime = Field(...)
     contracts: List[ContractVerificationResponseSchema] = Field(...)
+    document: Optional[DocumentResponseSchema] = Field(None)

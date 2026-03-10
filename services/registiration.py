@@ -3,12 +3,14 @@ from sqlalchemy.orm import Session
 from shared.repositories import (
     RegistirationRepository,
     ContractVerificationRepository,
-    RegistirationHistoryRepository
+    RegistirationHistoryRepository,
+    DocumentRepository
 )
 from shared.schemas import (
     RegistirationResponseSchema,
     RegistirationCreateSchema,
-    ContractVerificationResponseSchema
+    ContractVerificationResponseSchema,
+    DocumentResponseSchema
 )
 from shared.enums import (
     RegistirationStatusEnum,
@@ -22,6 +24,7 @@ class RegistirationService:
         self.registiration_repository = RegistirationRepository(db=db)
         self.registiration_history_repository = RegistirationHistoryRepository(db=db)
         self.contract_verification_repository = ContractVerificationRepository(db=db)
+        self.document_repository = DocumentRepository(db=db)
     
     async def create(self, payload: RegistirationCreateSchema) -> RegistirationResponseSchema:
         try:
@@ -58,6 +61,7 @@ class RegistirationService:
 
             data = data.to_dict()
             data["contracts"] = contracts_data
+            data["document"] = None
             data = RegistirationResponseSchema(**data)
             
             self.db.commit()
@@ -71,9 +75,11 @@ class RegistirationService:
         
     async def get_one(self, number: str) -> RegistirationResponseSchema:
         registiration = self.registiration_repository.get_by_field("tracking_number", number)
-        contracts = self.contract_verification_repository.get_registiration_contracts(registiration.id)        
+        contracts = self.contract_verification_repository.get_registiration_contracts(registiration.id)
+        document = self.document_repository.get_by_field("registiration_id", registiration.id)
 
         data = registiration.to_dict()
         data["contracts"] = [ContractVerificationResponseSchema(**contract.to_dict()) for contract in contracts]
+        data["document"] = DocumentResponseSchema(**document.to_dict()) if document else None
 
         return data

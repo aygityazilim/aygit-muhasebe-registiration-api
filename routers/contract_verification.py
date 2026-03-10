@@ -5,12 +5,12 @@ from services.contract_verification import ContractVerificationService
 from dependencies import get_contract_verification_service
 
 router = APIRouter(
-    prefix="/{tracking_number}/contract-verification",
+    prefix="/contract-verification",
     tags=["Registiration Contract Verification"]
 )
 
 
-@router.patch("/send-code")
+@router.patch("/{tracking_number}/send-code")
 async def send_code(
     response: Response,
     tracking_number: str,
@@ -23,7 +23,7 @@ async def send_code(
     return data
 
 
-@router.patch("/verify-code")
+@router.patch("/{tracking_number}/verify-code")
 async def verify_code(
     response: Response,
     tracking_number: str,

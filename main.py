@@ -1,13 +1,11 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.exceptions import RequestValidationError
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.staticfiles import StaticFiles
 from shared.db import Base, engine
 from shared.utils import http_exception_handler, request_validation_exception_handler, internal_server_exception_handler
 from routers.registiration import router as registiration_router
 from routers.contract_verification import router as contract_verification_router
 from routers.document import router as document_router
-import os
 
 Base.metadata.create_all(bind=engine)
 
@@ -34,6 +32,3 @@ app.include_router(registiration_router)
 app.include_router(contract_verification_router)
 app.include_router(document_router)
 
-UPLOAD_DIR = os.getenv("UPLOAD_DIR", "./uploads")
-os.makedirs(UPLOAD_DIR, exist_ok=True)
-app.mount("/uploads", StaticFiles(directory=UPLOAD_DIR), name="uploads")

@@ -12,3 +12,5 @@ class Config:
     NOREPLY_EMAIL: str = os.getenv("NOREPLY_EMAIL")
     NOREPLY_PASSWORD: str = os.getenv("NOREPLY_PASSWORD")
     ENVIRONMENT: str = os.getenv("ENVIRONMENT")
+    NET_GSM_USER: str = os.getenv("NET_GSM_USER")
+    NET_GSM_PASSWORD: str = os.getenv("NET_GSM_PASSWORD")

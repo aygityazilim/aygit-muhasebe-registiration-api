@@ -11,6 +11,7 @@ from shared.enums import (
     ErrorMessageEnum,
     RegistirationStatusEnum
 )
+from shared.utils import NETGSMUtils
 import random
 from datetime import datetime
 
@@ -25,12 +26,16 @@ class ContractVerificationService:
         try:
             registiration = self.registiration_repository.get_by_field("tracking_number", registiration_number)
             contracts = self.contract_verification_repository.get_registiration_contracts(registiration.id)
+            code_lines = []
             for contract in contracts:
                 if contract.registiration_id != registiration.id:
                     raise HTTPException(status_code=StatusCodeEnum.UNAUTHORIZED.value, detail=ErrorMessageEnum.UNAUTHORIZED.value)
                 verification_code = str(random.randint(100000, 999999))
                 self.contract_verification_repository.update(contract, {"verification_code": verification_code, "sent_date": datetime.now()})
                 self.registiration_history_repository.create({"note": f"{contract.type} Verifikasyonu İstendi", "registiration_id": registiration.id, "status": RegistirationStatusEnum.PENDING.value})
+                code_lines.append(f"{contract.type.upper()} dogrulama kodunuz: {verification_code}")
+            msg = "\n".join(code_lines)
+            NETGSMUtils.send_otp(phone=registiration.phone, message=msg)
             self.db.commit()
         except HTTPException:
             raise

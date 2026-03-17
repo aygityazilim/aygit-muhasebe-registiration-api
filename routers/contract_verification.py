@@ -14,10 +14,9 @@ router = APIRouter(
 async def send_code(
     response: Response,
     tracking_number: str,
-    contract: int = Query(...),
     service: ContractVerificationService = Depends(get_contract_verification_service)
 ):
-    await service.send_code(tracking_number, contract)
+    await service.send_code(tracking_number)
     data = ResponseSchema(status=StatusCodeEnum.SUCCESS.value, success=True, error=None, data=None)
     response.status_code = StatusCodeEnum.SUCCESS.value
     return data

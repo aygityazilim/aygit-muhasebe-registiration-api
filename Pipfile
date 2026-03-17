@@ -10,6 +10,7 @@ psycopg2-binary = "*"
 uvicorn = {extras = ["standard"], version = "*"}
 python-dotenv = "*"
 alembic = "*"
+requests = "*"
 
 [dev-packages]
 
